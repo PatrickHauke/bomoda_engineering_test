@@ -11,15 +11,14 @@ def getUptime():
 
 # Count number of requests to status
 statusRequestCt = 0
+
 def getStatusCounter():
 	global statusRequestCt
 	statusRequestCt += 1
 	return statusRequestCt
 
 # Get the date/time of when the first request was made
-# If file to read doesn't exist, create new file and update with initial data
-initialDateTime = ''
-isInitialStatusDate = False
+# Read file contents to first run timestamp. If does not find file (created when date called), create a new file with timestamp
 dirPath = os.path.dirname(os.path.abspath(__file__))
 def getInitialStatusReqDateTime():
 	try:
@@ -27,25 +26,30 @@ def getInitialStatusReqDateTime():
 	except:
 		return initializeHistoryFile()
 
-
-	# if not os.path.isFile(dirPath + '/history.json'):
-	# 	print 'echo'
-	# 	initializeHistoryFile()
-	# readInitialStatusRequestDateTime()
-
+# Create a new file to hold record incase of service failure || restart. It is initialized with the total endpoint count and current server time
 def initializeHistoryFile():
-	global initialDateTime			
 	initialDateTime = datetime.datetime.now()
 	with open(dirPath + '/history.json', 'w+') as output:
 		json.dump({'initialDateTime': str(initialDateTime), 'totalEndPointRequests': 0}, output)
 		return str(initialDateTime)
 
+# initializeHistoryFile()
+# Read data from history file stored with api
 def readInitialStatusRequestDateTime():
 	with open(dirPath + '/history.json') as file:
 		data = json.load(file)
-		print data['initialDateTime']
 		return data['initialDateTime']
 
+def updateTotalEndpoints():
+	with open(dirPath + '/history.json', 'r+') as file:
+		data = json.load(file)
+		tmp = data['totalEndPointRequests']
+		data['totalEndPointRequests'] = tmp + 1
+		file.seek(0)
+		json.dump(data, file)
+		return data['totalEndPointRequests']
+
+# updateTotalEndpoints()
 
 app = Flask(__name__)
 
@@ -56,7 +60,7 @@ def status():
 		'serviceUptime': getUptime(),
 		'serviceEndPointRequests': getStatusCounter(),
 		'initialDateTime': getInitialStatusReqDateTime(),
-		'totalEndPointRequests': 0
+		'totalEndPointRequests': updateTotalEndpoints()
 	}
 
 	response = Response(json.dumps(data), status=200, mimetype='application/json')
