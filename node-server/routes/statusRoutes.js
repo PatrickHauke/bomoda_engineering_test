@@ -2,7 +2,6 @@ const apiHost = process.env.API_HOST,
 	  apiPort = process.env.API_PORT,
 	  apiURL = apiHost + ':' + apiPort;
 
-console.log(apiURL+'/status')
 let router = require('express').Router(),
 	request = require('request');
 
