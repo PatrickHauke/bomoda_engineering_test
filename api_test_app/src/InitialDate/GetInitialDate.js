@@ -2,7 +2,7 @@ import React from 'react';
 
 const GetInitialDate = (props) => {
 	return (
-		<div>
+		<div style={props.style}>
 			<p>The service first ran on {props.val}</p>
 		</div>
 	)

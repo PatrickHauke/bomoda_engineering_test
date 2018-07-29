@@ -5,6 +5,8 @@ import CurrentEndpoints from './Endpoints/CurrentEndpoints';
 import TotalEndpoints from './Endpoints/TotalEndpoints';
 import InitialDate from './InitialDate/GetInitialDate';
 
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,19 +27,39 @@ class App extends Component {
   }
 
   render() {
-    const sample = this.state;
+    const buttonStyle = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      boxShadow: '0 2px 3px blue',
+      padding: '20px',
+      cursor: 'pointer',
+      display: 'flex',
+      margin: 'auto'
+    };
+
+    const dataStyle = {
+      width: '60%',
+      margin: 'auto',
+      border: '1px solid #eee',
+      boxShadow: '0 2px 3px #ccc',
+      padding: '16px',
+      textAlign: 'center'
+    }
+
     return (
       <div className="App">
         <div className="StatDisplay">
-          <Uptime runTime={this.state.data.serviceUptime}/>
-          <CurrentEndpoints val={this.state.data.serviceEndPointRequests}/>
-          <TotalEndpoints val={this.state.data.totalEndPointRequests}/>
-          <InitialDate val={this.state.data.initialDateTime}/>
-        </div>    
+          <Uptime style={dataStyle} runTime={this.state.data.serviceUptime}/>
+          <CurrentEndpoints style={dataStyle} val={this.state.data.serviceEndPointRequests}/>
+          <TotalEndpoints style={dataStyle} val={this.state.data.totalEndPointRequests}/>
+          <InitialDate style={dataStyle} val={this.state.data.initialDateTime}/>
+        </div>
         <button
+          style={buttonStyle}
           onClick={this.updateApplicationStatHandler}>
-          Update Data
-        </button>
+          Update Service Status
+        </button>   
       </div>
     );
   }

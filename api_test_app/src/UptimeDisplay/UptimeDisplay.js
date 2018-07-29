@@ -2,7 +2,7 @@ import React from 'react';
 
 const UptimeDisplay = (props) => {
 	return (
-		<div>
+		<div style={props.style}>
 			<p onChange={props.changed}>Python application has been running for {props.runTime}</p>
 		</div>
 	)

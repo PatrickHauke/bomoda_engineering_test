@@ -2,8 +2,8 @@ import React from 'react';
 
 const CurrentEndpoints = (props) => {
 	return (
-		<div>
-			<p>The route <b>/status</b> has been hit {props.val} times since service restart.</p>
+		<div style={props.style}>
+			<p>The route <b>localhost:5000/status</b> has been hit {props.val} times since service restart.</p>
 		</div>
 	)
 }
